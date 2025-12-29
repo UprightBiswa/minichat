@@ -12,10 +12,20 @@ class ApiClient extends http.BaseClient {
 
   Future<String> fetchRandomQuote() async {
     try {
-      final response = await get(Uri.parse('https://api.quotable.io/random'));
+      final response = await get(
+        Uri.parse('https://dummyjson.com/comments?limit=10'),
+      );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
-        return data['content'] as String;
+        final comments = data['comments'] as List;
+        if (comments.isNotEmpty) {
+          final randomIndex =
+              DateTime.now().millisecondsSinceEpoch % comments.length;
+          final comment = comments[randomIndex] as Map<String, dynamic>;
+          return comment['body'] as String;
+        } else {
+          throw ApiException('No comments found');
+        }
       } else {
         throw ApiException(
           'HTTP ${response.statusCode}: ${response.reasonPhrase}',
@@ -23,7 +33,8 @@ class ApiClient extends http.BaseClient {
       }
     } catch (e) {
       if (e is ApiException) rethrow;
-      throw ApiException('Failed to fetch quote: $e');
+      // Fallback to mock quote if API fails
+      return 'This is a mock receiver message since the API is not available.';
     }
   }
 

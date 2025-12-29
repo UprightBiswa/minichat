@@ -16,13 +16,15 @@ class UsersCubit extends Cubit<UsersState> {
   UsersCubit() : super(UsersState([]));
 
   void addUser(String name) {
-    final updatedUsers = List<User>.from(state.users)..add(User(name: name));
+    final isOnline = DateTime.now().millisecondsSinceEpoch % 2 == 0;
+    final updatedUsers = List<User>.from(state.users)
+      ..add(User(name: name, isOnline: isOnline));
     emit(UsersState(updatedUsers));
   }
 
   void updateUser(User updated) {
     final updatedUsers = state.users
-        .map((user) => user.id == updated.id ? updated : user)
+        .map((user) => user.id == updated.id ? updated.copyWith() : user)
         .toList();
     emit(UsersState(updatedUsers));
   }

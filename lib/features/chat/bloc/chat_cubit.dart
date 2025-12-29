@@ -10,7 +10,7 @@ class ChatState {
   final bool isLoading;
   final String? error;
 
-  ChatState(this.messages, this.isLoading, this.error);
+  const ChatState(this.messages, this.isLoading, this.error);
 
   ChatState copyWith({
     List<Message>? messages,
@@ -41,7 +41,9 @@ class ChatCubit extends Cubit<ChatState> {
     print(
       'ChatCubit: Updated messages length after send: ${updatedMessages.length}',
     );
-    emit(ChatState(updatedMessages, true, null));
+    emit(
+      state.copyWith(messages: updatedMessages, isLoading: true, error: null),
+    );
     usersCubit.updateUser(
       user.copyWith(lastMessage: text, lastTime: DateTime.now()),
     );
@@ -59,10 +61,12 @@ class ChatCubit extends Cubit<ChatState> {
       print(
         'ChatCubit: New messages length after fetch: ${newMessages.length}',
       );
-      emit(ChatState(newMessages, false, null));
+      emit(
+        state.copyWith(messages: newMessages, isLoading: false, error: null),
+      );
     } catch (e) {
       print('ChatCubit: Error fetching receiver message: $e');
-      emit(ChatState(state.messages, false, e.toString()));
+      emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }
 

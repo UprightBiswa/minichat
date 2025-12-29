@@ -46,7 +46,47 @@ class _ChatScreenState extends State<ChatScreen> {
         context.read<UsersCubit>(),
       ),
       child: Scaffold(
-        appBar: AppBar(title: Text(widget.user.name)),
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Stack(
+              children: [
+                CircleAvatar(
+                  backgroundColor: AppColors.primary,
+                  child: Text(
+                    widget.user.name[0].toUpperCase(),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: widget.user.isOnline ? Colors.green : Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(widget.user.name, style: TextStyle(fontSize: 16)),
+              Text(
+                widget.user.isOnline ? 'Online' : 'Offline',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: widget.user.isOnline ? Colors.green : Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
         body: BlocListener<ChatCubit, ChatState>(
           listenWhen: (previous, current) =>
               previous.error == null && current.error != null,
@@ -124,25 +164,83 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildMessageBubble(Message message) {
     final isSender = message.type == MessageType.sender;
+    final borderRadius = isSender
+        ? BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(4),
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          )
+        : BorderRadius.only(
+            topLeft: Radius.circular(4),
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          );
     return Align(
       alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: isSender ? AppColors.senderBubble : AppColors.receiverBubble,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircleAvatar(child: Text(isSender ? widget.user.name[0] : 'B')),
-            const SizedBox(width: 8),
-            Expanded(child: _buildMessageText(message.text)),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: isSender
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: isSender
+                  ? AppColors.senderBubble
+                  : AppColors.receiverBubble,
+              borderRadius: borderRadius,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: isSender
+                  ? [
+                      Flexible(child: _buildMessageText(message.text)),
+                      const SizedBox(width: 8),
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundColor: AppColors.primary,
+                        child: Text(
+                          widget.user.name[0].toUpperCase(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ]
+                  : [
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundColor: AppColors.primary,
+                        child: Text('B', style: TextStyle(color: Colors.white)),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(child: _buildMessageText(message.text)),
+                    ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              _formatMessageTime(message.timestamp),
+              style: TextStyle(fontSize: 10, color: Colors.grey),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  String _formatMessageTime(DateTime time) {
+    final now = DateTime.now();
+    final difference = now.difference(time);
+    if (difference.inDays == 0) {
+      return '${time.hour}:${time.minute.toString().padLeft(2, '0')} ${time.hour >= 12 ? 'PM' : 'AM'}';
+    } else if (difference.inDays == 1) {
+      return 'Yesterday';
+    } else {
+      return '${difference.inDays} days ago';
+    }
   }
 
   Widget _buildMessageText(String text) {

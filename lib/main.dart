@@ -16,7 +16,37 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => UsersCubit()),
+        BlocProvider(
+          create: (context) {
+            final cubit = UsersCubit();
+            // Add dummy users
+            cubit.addUser('Alice Johnson');
+            cubit.addUser('Bob Smith');
+            cubit.addUser('Charlie Brown');
+            // Add dummy messages
+            Future.microtask(() {
+              cubit.updateUser(
+                cubit.state.users[0].copyWith(
+                  lastMessage: 'See you tomorrow',
+                  lastTime: DateTime.now().subtract(Duration(hours: 2)),
+                ),
+              );
+              cubit.updateUser(
+                cubit.state.users[1].copyWith(
+                  lastMessage: 'Hello!',
+                  lastTime: DateTime.now().subtract(Duration(days: 1)),
+                ),
+              );
+              cubit.updateUser(
+                cubit.state.users[2].copyWith(
+                  lastMessage: 'How are you?',
+                  lastTime: DateTime.now().subtract(Duration(minutes: 30)),
+                ),
+              );
+            });
+            return cubit;
+          },
+        ),
         BlocProvider(create: (context) => HomeTabCubit()),
       ],
       child: MaterialApp(
