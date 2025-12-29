@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/time_formatter.dart';
 import '../../../users/bloc/users_cubit.dart';
-import '../../../users/models/user_model.dart';
 import '../../../chat/presentation/chat_screen.dart';
 
 class ChatHistoryPage extends StatelessWidget {
+  const ChatHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsersCubit, UsersState>(
@@ -23,22 +22,20 @@ class ChatHistoryPage extends StatelessWidget {
               return ListTile(
                 leading: Stack(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      child: Text(
-                        user.name[0].toUpperCase(),
-                        style: TextStyle(color: Colors.white),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFF00B09B),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: user.isOnline ? Colors.green : Colors.grey,
-                          shape: BoxShape.circle,
+                      child: Center(
+                        child: Text(
+                          user.name.isNotEmpty
+                              ? user.name[0].toUpperCase()
+                              : '?',
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
@@ -46,27 +43,45 @@ class ChatHistoryPage extends StatelessWidget {
                 ),
                 title: Text(
                   user.name,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                subtitle: Text(
+                  user.lastMessage ?? 'No messages yet',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                ),
+                trailing: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      user.isOnline ? 'Online' : 'Offline',
+                      user.lastTime != null ? formatTime(user.lastTime!) : '',
                       style: TextStyle(
+                        color: Colors.grey.shade500,
                         fontSize: 12,
-                        color: user.isOnline ? Colors.green : Colors.grey,
                       ),
                     ),
-                    Text(
-                      user.lastMessage ?? 'No messages yet',
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                    const SizedBox(height: 5),
+                    if (user.unreadCount > 0)
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF0061FF), // Blue badge
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '${user.unreadCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    else
+                      const SizedBox(height: 20),
                   ],
-                ),
-                trailing: Text(
-                  user.lastTime != null ? formatTime(user.lastTime!) : '',
-                  style: TextStyle(fontSize: 12),
                 ),
                 onTap: () => Navigator.push(
                   context,

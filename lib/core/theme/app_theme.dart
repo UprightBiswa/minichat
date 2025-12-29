@@ -4,14 +4,22 @@ import 'app_text_styles.dart';
 
 ThemeData get appTheme {
   return ThemeData(
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.background,
+    primaryColor: Color(0xFF0061FF),
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
       elevation: 0,
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      centerTitle: false,
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      iconTheme: IconThemeData(color: Colors.black),
       shape: Border(
         bottom: BorderSide(
-          color: Colors.grey.shade300, // The color of your line
+          color: Colors.grey.withOpacity(0.2), // The color of your line
           width: 1.0, // The thickness of your line
         ),
       ),
@@ -51,8 +59,19 @@ ThemeData get appTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: AppColors.primary,
-      unselectedItemColor: AppColors.tabSwitcherInactiveText,
+      unselectedItemColor: Colors.grey,
+      selectedIconTheme: IconThemeData(size: 24),
+      unselectedIconTheme: IconThemeData(size: 24),
+      showUnselectedLabels: true,
       elevation: 0,
+      selectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.bold,
+      ),
     ),
   );
 }

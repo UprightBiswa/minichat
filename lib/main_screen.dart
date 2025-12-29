@@ -35,13 +35,13 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.message_outlined), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
+            icon: Icon(Icons.local_offer_outlined),
             label: 'Offers',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined),
             label: 'Settings',
           ),
         ],

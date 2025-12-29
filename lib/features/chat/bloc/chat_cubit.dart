@@ -31,7 +31,9 @@ class ChatCubit extends Cubit<ChatState> {
   final UsersCubit usersCubit;
 
   ChatCubit(this.repository, this.user, this.usersCubit)
-    : super(ChatState([], false, null));
+    : super(ChatState(user.messages, false, null)) {
+    usersCubit.markAsRead(user.id);
+  }
 
   void sendMessage(String text) {
     print('ChatCubit: Sending message: $text');
@@ -45,7 +47,11 @@ class ChatCubit extends Cubit<ChatState> {
       state.copyWith(messages: updatedMessages, isLoading: true, error: null),
     );
     usersCubit.updateUser(
-      user.copyWith(lastMessage: text, lastTime: DateTime.now()),
+      user.copyWith(
+        lastMessage: text,
+        lastTime: DateTime.now(),
+        messages: updatedMessages,
+      ),
     );
     _fetchReceiverMessage();
   }
@@ -63,6 +69,13 @@ class ChatCubit extends Cubit<ChatState> {
       );
       emit(
         state.copyWith(messages: newMessages, isLoading: false, error: null),
+      );
+      usersCubit.updateUser(
+        user.copyWith(
+          lastMessage: receiverMessage.text,
+          lastTime: DateTime.now(),
+          messages: newMessages,
+        ),
       );
     } catch (e) {
       print('ChatCubit: Error fetching receiver message: $e');

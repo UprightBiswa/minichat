@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/theme/app_colors.dart';
 import '../bloc/users_cubit.dart';
-import '../models/user_model.dart';
 import '../../chat/presentation/chat_screen.dart';
 
 class UsersListPage extends StatelessWidget {
+  const UsersListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsersCubit, UsersState>(
@@ -21,8 +21,16 @@ class UsersListPage extends StatelessWidget {
               return ListTile(
                 leading: Stack(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: AppColors.primary,
+                    Container(
+                      width: 40,
+                      height: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [Color(0xFFAB47BC), Color(0xFF7B1FA2)],
+                        ),
+                      ),
                       child: Text(
                         user.name[0].toUpperCase(),
                         style: TextStyle(color: Colors.white),
@@ -32,11 +40,12 @@ class UsersListPage extends StatelessWidget {
                       bottom: 0,
                       right: 0,
                       child: Container(
-                        width: 8,
-                        height: 8,
+                        width: 10,
+                        height: 10,
                         decoration: BoxDecoration(
                           color: user.isOnline ? Colors.green : Colors.grey,
                           shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 1),
                         ),
                       ),
                     ),

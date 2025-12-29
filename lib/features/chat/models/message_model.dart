@@ -6,7 +6,7 @@ class Message {
   final MessageType type;
   final DateTime timestamp;
 
-  Message(this.text, this.type)
+  Message(this.text, this.type, {DateTime? timestamp})
     : id = DateTime.now().millisecondsSinceEpoch.toString(),
-      timestamp = DateTime.now();
+      timestamp = timestamp ?? DateTime.now();
 }

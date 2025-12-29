@@ -14,20 +14,55 @@ class AddUserFab extends StatelessWidget {
             final name = await showDialog<String>(
               context: context,
               builder: (context) {
-                String? inputName;
+                final TextEditingController controller =
+                    TextEditingController();
                 return AlertDialog(
-                  title: Text('Add User'),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Text(
+                    'New Chat',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   content: TextField(
-                    onChanged: (value) => inputName = value,
-                    decoration: InputDecoration(hintText: 'Enter user name'),
+                    controller: controller,
+                    autofocus: true,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      hintText: 'Enter user name',
+                      filled: true,
+                      fillColor: Colors.grey.shade50,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text('Cancel'),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, inputName),
+                    ElevatedButton(
+                      onPressed: () {
+                        final text = controller.text.trim();
+                        if (text.isNotEmpty) {
+                          Navigator.pop(context, text);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 0,
+                      ),
                       child: Text('Add'),
                     ),
                   ],

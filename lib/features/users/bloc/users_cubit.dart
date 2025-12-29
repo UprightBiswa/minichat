@@ -28,4 +28,14 @@ class UsersCubit extends Cubit<UsersState> {
         .toList();
     emit(UsersState(updatedUsers));
   }
+
+  void markAsRead(String userId) {
+    final updatedUsers = state.users.map((user) {
+      if (user.id == userId) {
+        return user.copyWith(unreadCount: 0);
+      }
+      return user;
+    }).toList();
+    emit(UsersState(updatedUsers));
+  }
 }

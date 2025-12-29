@@ -18,20 +18,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: AddUserFab(),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(floating: true, snap: true, title: TopTabSwitcher()),
-          SliverFillRemaining(
-            child: BlocBuilder<HomeTabCubit, HomeTabState>(
-              builder: (context, state) {
-                return IndexedStack(
-                  index: state.currentIndex,
-                  children: [UsersListPage(), ChatHistoryPage()],
-                );
-              },
-            ),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            pinned: false,
+            toolbarHeight: 80,
+            titleSpacing: 0,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            title: TopTabSwitcher(),
           ),
         ],
+        body: BlocBuilder<HomeTabCubit, HomeTabState>(
+          builder: (context, state) {
+            return IndexedStack(
+              index: state.currentIndex,
+              children: [UsersListPage(), ChatHistoryPage()],
+            );
+          },
+        ),
       ),
     );
   }
