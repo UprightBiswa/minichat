@@ -7,4 +7,7 @@ class AppColors {
   static const Color receiverBubble = Color(0xFFEDEDED);
   static const Color textPrimary = Color(0xFF111111);
   static const Color textSecondary = Color(0xFF777777);
+  static const Color tabSwitcherBackground = Color(0xFFF1F3F6);
+  static const Color tabSwitcherActiveText = Colors.white;
+  static const Color tabSwitcherInactiveText = Color(0xFF6B7280);
 }

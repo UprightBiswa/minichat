@@ -10,22 +10,26 @@ class ChatHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UsersCubit, UsersState>(
       builder: (context, state) {
-        return ListView.builder(
-          key: PageStorageKey('chat_history'),
-          itemCount: state.users.length,
-          itemBuilder: (context, index) {
-            final user = state.users[index];
-            return ListTile(
-              title: Text(user.name),
-              subtitle: Text(user.lastMessage ?? 'No messages yet'),
-              trailing: Text(
-                user.lastTime != null ? formatTime(user.lastTime!) : '',
-              ),
-              onTap: () =>
-                  Navigator.pushNamed(context, '/chat', arguments: user),
-            );
-          },
-        );
+        if (state.users.isEmpty) {
+          return Center(child: Text("No chat history"));
+        } else {
+          return ListView.builder(
+            key: PageStorageKey('chat_history'),
+            itemCount: state.users.length,
+            itemBuilder: (context, index) {
+              final user = state.users[index];
+              return ListTile(
+                title: Text(user.name),
+                subtitle: Text(user.lastMessage ?? 'No messages yet'),
+                trailing: Text(
+                  user.lastTime != null ? formatTime(user.lastTime!) : '',
+                ),
+                onTap: () =>
+                    Navigator.pushNamed(context, '/chat', arguments: user),
+              );
+            },
+          );
+        }
       },
     );
   }

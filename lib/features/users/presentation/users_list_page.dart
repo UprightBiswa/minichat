@@ -9,25 +9,29 @@ class UsersListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UsersCubit, UsersState>(
       builder: (context, state) {
-        return ListView.builder(
-          key: PageStorageKey('users'),
-          itemCount: state.users.length,
-          itemBuilder: (context, index) {
-            final user = state.users[index];
-            return ListTile(
-              leading: CircleAvatar(child: Text(user.name[0])),
-              title: Text(user.name),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatScreen(user: user),
-                  ),
-                );
-              },
-            );
-          },
-        );
+        if (state.users.isEmpty) {
+          return Center(child: Text("No users added yet. Tap + to add."));
+        } else {
+          return ListView.builder(
+            key: PageStorageKey('users'),
+            itemCount: state.users.length,
+            itemBuilder: (context, index) {
+              final user = state.users[index];
+              return ListTile(
+                leading: CircleAvatar(child: Text(user.name[0])),
+                title: Text(user.name),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatScreen(user: user),
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        }
       },
     );
   }

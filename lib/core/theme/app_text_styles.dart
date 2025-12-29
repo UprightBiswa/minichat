@@ -15,4 +15,8 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
   );
+  static const TextStyle tabText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+  );
 }

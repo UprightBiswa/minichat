@@ -22,10 +22,18 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -55,15 +63,14 @@ class _ChatScreenState extends State<ChatScreen> {
           },
           child: BlocBuilder<ChatCubit, ChatState>(
             builder: (context, state) {
-              return Column(
+              final column = Column(
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      reverse: true,
+                      controller: _scrollController,
                       itemCount: state.messages.length,
                       itemBuilder: (context, index) {
-                        final message =
-                            state.messages[state.messages.length - 1 - index];
+                        final message = state.messages[index];
                         return _buildMessageBubble(message);
                       },
                     ),
@@ -98,6 +105,16 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ],
               );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  );
+                }
+              });
+              return column;
             },
           ),
         ),

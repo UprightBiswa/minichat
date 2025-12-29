@@ -1,81 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:minichatapp/core/theme/app_colors.dart';
+import 'package:minichatapp/core/theme/app_text_styles.dart';
 import '../../bloc/home_tab_cubit.dart';
 
-class TopTabSwitcher extends StatefulWidget {
-  @override
-  _TopTabSwitcherState createState() => _TopTabSwitcherState();
-}
-
-class _TopTabSwitcherState extends State<TopTabSwitcher>
-    with TickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  void _switchTab(int index) {
-    context.read<HomeTabCubit>().switchToTab(index);
-    _animationController.forward(from: 0);
-  }
-
+class TopTabSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeTabCubit, HomeTabState>(
       builder: (context, state) {
         return Container(
-          height: 40,
-          child: Stack(
+          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+          decoration: BoxDecoration(
+            color: AppColors.tabSwitcherBackground,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GestureDetector(
-                    onTap: () => _switchTab(0),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.read<HomeTabCubit>().switchToTab(0),
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    decoration: BoxDecoration(
+                      color: state.currentIndex == 0
+                          ? AppColors.primary
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      'Users',
+                      style: AppTextStyles.tabText.copyWith(
+                        color: state.currentIndex == 0
+                            ? AppColors.tabSwitcherActiveText
+                            : AppColors.tabSwitcherInactiveText,
                       ),
-                      child: Text('Users'),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => _switchTab(1),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Text('Chat History'),
-                    ),
-                  ),
-                ],
+                ),
               ),
-              AnimatedPositioned(
-                duration: Duration(milliseconds: 300),
-                left: state.currentIndex == 0 ? 0 : 80,
-                top: 32,
-                child: Container(
-                  width: 80,
-                  height: 2,
-                  color: Theme.of(context).primaryColor,
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.read<HomeTabCubit>().switchToTab(1),
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    decoration: BoxDecoration(
+                      color: state.currentIndex == 1
+                          ? AppColors.primary
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      'Chat History',
+                      style: AppTextStyles.tabText.copyWith(
+                        color: state.currentIndex == 1
+                            ? AppColors.tabSwitcherActiveText
+                            : AppColors.tabSwitcherInactiveText,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

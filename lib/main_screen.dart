@@ -12,12 +12,12 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomePage(), // Functional HomePage
     Scaffold(
-      appBar: AppBar(title: Text('Tab 2')),
-      body: Center(child: Text('Tab 2 Placeholder')),
+      appBar: AppBar(title: Text('Offers')),
+      body: Center(child: Text('Offers')),
     ),
     Scaffold(
-      appBar: AppBar(title: Text('Tab 3')),
-      body: Center(child: Text('Tab 3 Placeholder')),
+      appBar: AppBar(title: Text('Settings')),
+      body: Center(child: Text('Settings')),
     ),
   ];
 
@@ -34,8 +34,14 @@ class _MainScreenState extends State<MainScreen> {
         },
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.tab), label: 'Tab 2'),
-          BottomNavigationBarItem(icon: Icon(Icons.tab), label: 'Tab 3'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_offer),
+            label: 'Offers',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
         ],
       ),
     );
