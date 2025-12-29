@@ -16,7 +16,14 @@ class UsersCubit extends Cubit<UsersState> {
   UsersCubit() : super(UsersState([]));
 
   void addUser(String name) {
-    final updatedUsers = List<User>.from(state.users)..add(User(name));
+    final updatedUsers = List<User>.from(state.users)..add(User(name: name));
+    emit(UsersState(updatedUsers));
+  }
+
+  void updateUser(User updated) {
+    final updatedUsers = state.users
+        .map((user) => user.id == updated.id ? updated : user)
+        .toList();
     emit(UsersState(updatedUsers));
   }
 }

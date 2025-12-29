@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../users/bloc/users_cubit.dart';
 import '../../users/models/user_model.dart';
 import '../data/chat_repository.dart';
 import '../models/message_model.dart';
@@ -27,14 +28,19 @@ class ChatState {
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepository repository;
   final User user;
+  final UsersCubit usersCubit;
 
-  ChatCubit(this.repository, this.user) : super(ChatState([], false, null));
+  ChatCubit(this.repository, this.user, this.usersCubit)
+    : super(ChatState([], false, null));
 
   void sendMessage(String text) {
     final senderMessage = Message(text, MessageType.sender);
     final updatedMessages = List<Message>.from(state.messages)
       ..add(senderMessage);
     emit(ChatState(updatedMessages, true, null));
+    usersCubit.updateUser(
+      user.copyWith(lastMessage: text, lastTime: DateTime.now()),
+    );
     _fetchReceiverMessage();
   }
 
@@ -47,6 +53,14 @@ class ChatCubit extends Cubit<ChatState> {
       emit(ChatState(newMessages, false, null));
     } catch (e) {
       emit(ChatState(state.messages, false, e.toString()));
+    }
+  }
+
+  void retryFetch() {
+    if (state.messages.isNotEmpty &&
+        state.messages.last.type == MessageType.sender) {
+      emit(state.copyWith(isLoading: true, error: null));
+      _fetchReceiverMessage();
     }
   }
 }

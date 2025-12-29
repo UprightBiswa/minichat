@@ -11,11 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:minichatapp/main.dart';
 
 void main() {
-  testWidgets('Welcome message test', (WidgetTester tester) async {
+  testWidgets('Home page title test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(MyApp());
 
-    // Verify that the welcome message is displayed.
-    expect(find.text('Welcome to Mini Chat App'), findsOneWidget);
+    // Verify that the home page title 'Users' is displayed.
+    expect(find.text('Users'), findsOneWidget);
   });
 }
