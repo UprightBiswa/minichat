@@ -47,42 +47,31 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Stack(
-              children: [
-                CircleAvatar(
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
                   backgroundColor: AppColors.primary,
                   child: Text(
                     widget.user.name[0].toUpperCase(),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.user.name, style: TextStyle(fontSize: 16)),
+                  Text(
+                    widget.user.isOnline ? 'Online' : 'Offline',
+                    style: TextStyle(
+                      fontSize: 12,
                       color: widget.user.isOnline ? Colors.green : Colors.grey,
-                      shape: BoxShape.circle,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.user.name, style: TextStyle(fontSize: 16)),
-              Text(
-                widget.user.isOnline ? 'Online' : 'Offline',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: widget.user.isOnline ? Colors.green : Colors.grey,
-                ),
+                ],
               ),
             ],
           ),

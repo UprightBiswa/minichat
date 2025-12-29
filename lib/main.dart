@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'core/theme/app_colors.dart';
-import 'core/theme/app_text_styles.dart';
+import 'core/theme/app_theme.dart';
 import 'features/home/bloc/home_tab_cubit.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'features/users/bloc/users_cubit.dart';
@@ -52,10 +51,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Mini Chat App',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: AppColors.primary,
-          scaffoldBackgroundColor: AppColors.background,
-        ),
+        theme: appTheme,
         home: MainScreen(),
       ),
     );
