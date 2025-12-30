@@ -11,11 +11,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:minichatapp/main.dart';
 
 void main() {
-  testWidgets('Home page title test', (WidgetTester tester) async {
+  testWidgets('App smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
-    // Verify that the home page title 'Users' is displayed.
+    // Verify that the home page tabs are displayed.
     expect(find.text('Users'), findsOneWidget);
+    expect(find.text('Chat History'), findsOneWidget);
+
+    // Verify that the Floating Action Button is present.
+    expect(find.byIcon(Icons.add), findsOneWidget);
   });
 }

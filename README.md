@@ -1,54 +1,47 @@
 # Mini Chat App
 
-## Description
-
-A Flutter-based chat application that allows users to create contacts and engage in conversations with an AI-powered responder that provides inspirational quotes. Features word lookup functionality for enhanced learning.
+A modern, Flutter-based chat application featuring a clean UI, real-time simulated conversations, and useful tools like word definitions.
 
 ## Features
 
-- **User Management**: Add and manage user contacts
-- **Chat Interface**: Real-time chat with quote-based AI responses
-- **Chat History**: View previous conversations
-- **Word Lookup**: Long-press on words to get definitions or phonetic spellings
+- **User Management**: Create and view user contacts.
+- **Chat Interface**: Interactive chat screen with gradient bubbles and typing indicators.
+- **Simulated Responses**: Receive automated responses from "users" (powered by dummy data APIs).
+- **Word Lookup**: Tap on any word in a message to view its definition and meaning.
+- **Chat History**: Track your recent conversations and unread message counts.
+- **Smart Time Formatting**: Relative timestamps (e.g., "2 min ago", "Yesterday").
 
 ## Tech Stack
 
-- **Flutter** (SDK: ^3.9.2)
-- **Dart**
-- **BLoC** for state management
-- **HTTP** for API communication
-- **Intl** for internationalization
+- **Flutter** & **Dart**
+- **State Management**: BLoC (Cubit)
+- **Networking**: `http` package
+- **UI**: Custom themes, gradients, and animations
 
-## Setup Instructions
+## APIs Used
 
-1. Ensure Flutter is installed and set up on your system: [Flutter Installation Guide](https://flutter.dev/docs/get-started/install)
-2. Clone this repository
-3. Navigate to the project directory
-4. Run `flutter pub get` to install dependencies
-5. Run `flutter run` to start the application
+- **DummyJSON**: Used to simulate incoming chat messages/comments.
+- **Dictionary API**: Provides word definitions for the lookup feature.
 
-## API Used
+## Getting Started
 
-- **Quotable.io API**: Used for fetching random inspirational quotes as AI responses
-- **Dictionary API (dictionaryapi.dev)**: Used for word meaning lookup functionality
-
-## Bonus Features
-
-- **Interactive Word Lookup**: Long-press on any word in chat messages to instantly retrieve its definition, phonetic spelling, or related information from the Dictionary API
-
-## Build Instructions
-
-- **Android**: `flutter build apk`
-- **iOS**: `flutter build ios`
-- **Web**: `flutter build web`
-- **Linux**: `flutter build linux`
-- **macOS**: `flutter build macos`
-- **Windows**: `flutter build windows`
+1.  **Prerequisites**: Ensure you have Flutter installed.
+2.  **Installation**:
+    ```bash
+    git clone <repository-url>
+    cd minichatapp
+    flutter pub get
+    ```
+3.  **Run the App**:
+    ```bash
+    flutter run
+    ```
 
 ## Testing
 
-Run the test suite using:
-```
+To run the widget tests:
+
+```bash
 flutter test
 ```
 

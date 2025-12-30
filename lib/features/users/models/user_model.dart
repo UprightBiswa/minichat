@@ -32,7 +32,7 @@ class User {
     List<Message>? messages,
   }) {
     return User(
-      id: this.id,
+      id: id,
       name: name ?? this.name,
       isOnline: isOnline ?? this.isOnline,
       lastMessage: lastMessage ?? this.lastMessage,

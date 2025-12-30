@@ -19,7 +19,7 @@ ThemeData get appTheme {
       iconTheme: IconThemeData(color: Colors.black),
       shape: Border(
         bottom: BorderSide(
-          color: Colors.grey.withOpacity(0.2), // The color of your line
+          color: Colors.grey.withValues(alpha: .2), // The color of your line
           width: 1.0, // The thickness of your line
         ),
       ),
