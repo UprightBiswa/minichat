@@ -1,3 +1,4 @@
+import 'dart:math';
 import '../../chat/models/message_model.dart';
 
 class User {
@@ -17,7 +18,10 @@ class User {
     this.lastTime,
     this.unreadCount = 0,
     this.messages = const [],
-  }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString();
+  }) : id =
+           id ??
+           (DateTime.now().microsecondsSinceEpoch.toString() +
+               Random().nextInt(10000).toString());
 
   User copyWith({
     String? name,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/users_cubit.dart';
+import '../../../core/utils/time_formatter.dart';
 import '../../chat/presentation/chat_screen.dart';
 
 class UsersListPage extends StatelessWidget {
@@ -56,7 +57,11 @@ class UsersListPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 subtitle: Text(
-                  user.isOnline ? 'Online' : 'Offline',
+                  user.isOnline
+                      ? 'Online'
+                      : (user.lastTime != null
+                            ? 'Last seen ${formatTime(user.lastTime!)}'
+                            : 'Offline'),
                   style: TextStyle(
                     fontSize: 12,
                     color: user.isOnline ? Colors.green : Colors.grey,

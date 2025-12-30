@@ -15,6 +15,7 @@ class ApiClient extends http.BaseClient {
       final response = await get(
         Uri.parse('https://dummyjson.com/comments?limit=10'),
       );
+      print(response.body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
         final comments = data['comments'] as List;
@@ -33,6 +34,7 @@ class ApiClient extends http.BaseClient {
       }
     } catch (e) {
       if (e is ApiException) rethrow;
+      print(e);
       // Fallback to mock quote if API fails
       return 'This is a mock receiver message since the API is not available.';
     }
