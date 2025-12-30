@@ -48,10 +48,7 @@ flutter test
 ## Submission
 
 ### Video Demo Link
-[Placeholder - Add video demo link here]
-
-### App Screenshots
-[Placeholder - Add app screenshots here]
+https://drive.google.com/file/d/1s4oauWxnbe_6dPwvvAoJDIn3h5LS9n1s/view?usp=sharing
 
 ## License
 
